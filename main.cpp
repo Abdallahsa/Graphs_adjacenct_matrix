@@ -3,35 +3,36 @@
 using namespace std;
 typedef vector<vector<int>> Graphs;
 
-void add_direct(vector<vector<int>>& Graph,int from ,int to,int weighted){
-    Graph[from][to]=weighted;
+void add_direct(vector<vector<int>>& Graph,int from ,int to){
+    Graph[from].push_back(to);
 
 }
-void add_undirect(vector<vector<int>>& Graph,int from ,int to,int weighted){
-    Graph[from][to]=Graph[to][from]=weighted;
+void add_undirect(vector<vector<int>>& Graph,int from ,int to){
+    Graph[from].push_back(to);
+    Graph[to].push_back(from);
 
 }
-void priint_dirct_graph(Graphs& graphs){
+void print_dirct_graph(Graphs& graphs){
     int size=graphs.size();
     for (int from = 0; from < size; ++from) {
-        for (int to = 0; to < size; ++to) {
-            if(graphs[from][to]>0){
-                cout<<"form "<<from<<" "<<"to "<<to
-                <<" "<<" are weighted "<<graphs[from][to]<<endl;
-            }
+        cout<<"Node "<<from<<" has neighbors: ";
+        for (int to = 0; to <(int)graphs[from].size(); ++to) {
+          cout<<graphs[from][to]<<" ";
+
         }
+        cout<<endl;
     }
 }
 
 int main() {
     int node,edges;
     cin>>node>>edges;
- Graphs graphs(node,vector<int>(node));
+ Graphs graphs(node);
     for (int i = 0; i < edges; ++i) {
-        int to,from,weighted;
-        cin>>from>>to>>weighted;
-        add_direct(graphs,from,to,weighted);
+        int to,from;
+        cin>>from>>to;
+        add_direct(graphs,from,to);
     }
-    priint_dirct_graph(graphs);
+    print_dirct_graph(graphs);
     return 0;
 }
